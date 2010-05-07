@@ -22,6 +22,17 @@ playlist(intro, function(err, list) {
     });
   });
   
+  function exit() {
+    playing = null;
+    sys.puts("Process ended.");
+    sys.puts("Press [enter] to restart.");
+    var stdin = process.openStdin();
+    stdin.setEncoding('utf8');
+    stdin.addListener('data', function (chunk) {
+      if (chunk[chunk.length-1]=="\n")
+        playing = play(intro);
+    });
+  }
   function play(intro) {
     //say("start playing "+intro);
     var playing = spawn('node', [intro]);
@@ -31,10 +42,11 @@ playlist(intro, function(err, list) {
     playing.stderr.addListener('data', function(data) {
       sys.print(data);
     });
+    playing.addListener('exit', exit );
     return playing;
   }
   function stop(playing, intro) {
-    if(playing) {
+    if(playing._internal.pid) {
       playing.kill();
       //say("stop playing "+intro);
     }
