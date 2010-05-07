@@ -46,7 +46,7 @@ playlist(intro, function(err, list) {
     return playing;
   }
   function stop(playing, intro) {
-    if(playing._internal.pid) {
+    if(playing) {
       playing.kill();
       //say("stop playing "+intro);
     }
