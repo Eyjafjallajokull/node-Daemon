@@ -58,6 +58,11 @@ Daemon.prototype.startWatching = function(argv) {
       d.restartChild();
     });
   });
+  
+  sys.puts("Daemon started.");
+  sys.puts("Press [enter] anytime to restart script.");
+  sys.puts("Press Ctrl+C to exit Daemon.\n");
+  
   this.startChild();
 }
 Daemon.prototype.startChild = function() {  
@@ -75,13 +80,11 @@ Daemon.prototype.killChild = function() {
   if (this._process && this._process.pid) this._process.kill();
 }
 Daemon.prototype.restartChild = function() {
-  sys.puts("\033[31mRestarting child process.\033[m");
+  sys.puts("\033[31mRestarting script.\033[m");
   this.killChild();
   this.startChild();
 }
 
-sys.puts("Press [enter] anytime to restart child process.");
-sys.puts("Press Ctrl+C to exit node-Daemon.");
 var stdin = process.openStdin();
 stdin.setEncoding('utf8');
 stdin.addListener('data', function (chunk) {
