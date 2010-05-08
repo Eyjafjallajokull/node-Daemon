@@ -1,39 +1,27 @@
-node-DJs
+node-Daemon
 ========
 
-Tired of restarting a script every time you modify it or its dependencies? Drop a DJ in da place!
+node-Daemon watches your scripts and when you save changes Daemon restarts running script. Here's example:
 
-    > node d.js myNodeServer.js
-    DJs: "Party time!"
-    6 May 11:27:48 - Server listening on port 8000
+    > node d.js server.js
+    Daemon started.
+    Press [enter] anytime to restart script.
+    Press Ctrl+C to exit Daemon.
+    8 May 13:07:25 - Server listening on port 6669
 
-Now modify myNodeServer.js or __any of the require()d files__ and hit Ctrl-S.
+Now modify and save server.js or any of the require()d files. Daemon reacts instantly:
 
-    DJs: playlist updated
-    6 May 11:29:22 - Server listening on port 8000
+    Restarting script.
+    8 May 13:12:25 - Server listening on port 6669
     
 How it Works/Limitations
 ------------------------
 
-DJs recursively parses your scripts to find require()d files, looking for lines such as
+Daemon recursively parses all require()d scripts and adds them to watch list.
 
-    var CSV = require(./csv);
-    
-It adds them to its *playlist* and watch all of these files for changes, using the fs.watchFile function.
 It is currently unable to watch dynamically loaded dependencies:
 
    var dep = './csv';
    require(dep);
    
 In the above case, changes occuring on 'csv.js' will not cause your script to restart.
-    
-Continuous-Testing
-------------------
-
-DJs will soon be able to run tests in the background while restarting your scripts.
-DJs could effectively be an equivalent to _watchr_ for nodejs.
-
-Package manager compatibility
------------------------------
-
-DJs intend to be compatible with the mains node packages managers, one way or another.
