@@ -7,8 +7,8 @@ node-Daemon watches your scripts and when you save changes Daemon restarts runni
     Usage: node d.js server.js [params]
     $ node d.js server.js
     Daemon started.
-    Press [enter] anytime to restart script.
-    Press Ctrl+C to exit Daemon.
+    Press enter anytime to restart script.
+    Press ctrl+c to exit Daemon.
     8 May 13:07:25 - Server listening on port 6669
 
 Now modify and save server.js or any of the require()d files. Daemon reacts instantly:
