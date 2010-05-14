@@ -3,13 +3,12 @@ var sys = require('sys'),
   spawn = require('child_process').spawn,
   path = require('path');
 
-
+// Daemon class
 function Daemon (args) {
   this.whatchedFiles = [];
   this._depQuene = [];
   this._process = null;
   
-  // parse args
   this.childName = args[2];
   if (!args[2]) {
     sys.puts("Usage: node d.js server.js [params]");
@@ -20,12 +19,13 @@ function Daemon (args) {
   
   this.collectDeps(this.childName);
 }
+
+// search for files to watch
 Daemon.prototype.collectDeps = function (file) {
   this._depQuene.push(file);
   this.whatchedFiles.push(file);
   this._collectDeps();  
 }
-
 Daemon.prototype._collectDeps = function () {
   var file = this._depQuene.pop();
   
@@ -51,6 +51,8 @@ Daemon.prototype._collectDeps = function () {
       d._collectDeps();
   });
 }
+
+// init file watching
 Daemon.prototype.startWatching = function(argv) {
   var d = this;
   this.whatchedFiles.forEach(function(file) {
@@ -60,11 +62,13 @@ Daemon.prototype.startWatching = function(argv) {
   });
   
   sys.puts("Daemon started.");
-  sys.puts("Press [enter] anytime to restart script.");
-  sys.puts("Press Ctrl+C to exit Daemon.\n");
+  sys.puts("Press enter anytime to restart script.");
+  sys.puts("Press ctrl+c to exit Daemon.\n");
   
   this.startChild();
 }
+
+// spawn Daemon child
 Daemon.prototype.startChild = function() {  
   this._process = spawn('node',this.childParams);
   this._process.stdout.addListener('data', function(data) {
@@ -76,15 +80,20 @@ Daemon.prototype.startChild = function() {
   var d = this;
   //this._process.addListener('exit', function() {});
 }
+
+// kill Daemon child
 Daemon.prototype.killChild = function() {
   if (this._process && this._process.pid) this._process.kill();
 }
+
+// respawn Daemon child
 Daemon.prototype.restartChild = function() {
   sys.puts("\033[31mRestarting script.\033[m");
   this.killChild();
   this.startChild();
 }
 
+// watch for enterpress
 var stdin = process.openStdin();
 stdin.setEncoding('utf8');
 stdin.addListener('data', function (chunk) {
@@ -92,6 +101,6 @@ stdin.addListener('data', function (chunk) {
     d.restartChild();
 });
 
+// start Daemon
 var d = new Daemon(process.argv);
-
 
