@@ -3,7 +3,9 @@ node-Daemon
 
 node-Daemon watches your scripts and when you save changes Daemon restarts running script. Here's example:
 
-    > node d.js server.js
+    $ node d.js
+    Usage: node d.js server.js [params]
+    $ node d.js server.js
     Daemon started.
     Press [enter] anytime to restart script.
     Press Ctrl+C to exit Daemon.
