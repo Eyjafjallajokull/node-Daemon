@@ -1,5 +1,5 @@
 node-Daemon
-========
+===========
 
 node-Daemon watches your scripts and when you save changes Daemon restarts running script. Here's example:
 
@@ -21,7 +21,7 @@ Daemon recursively parses all require()d scripts and adds them to watch list.
 
 It is currently unable to watch dynamically loaded dependencies:
 
-   var dep = './csv';
-   require(dep);
+    var dep = './csv';
+    require(dep);
    
-In the above case, changes occuring on 'csv.js' will not cause your script to restart.
+In the above case, changes occuring on *csv.js* will not cause your script to restart.
