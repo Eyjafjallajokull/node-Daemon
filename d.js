@@ -78,7 +78,9 @@ Daemon.prototype.startChild = function() {
     sys.print(data);
   });
   var d = this;
-  //this._process.addListener('exit', function() {});
+  this._process.addListener('exit', function(code) {
+    sys.puts("\033["+(code==0?32:31)+"mScript terminated. ("+code+")\033[m");
+  });
 }
 
 // kill Daemon child
@@ -88,7 +90,7 @@ Daemon.prototype.killChild = function() {
 
 // respawn Daemon child
 Daemon.prototype.restartChild = function() {
-  sys.puts("\033[31mRestarting script.\033[m");
+  sys.puts("\033[34mRestarting script.\033[m");
   this.killChild();
   this.startChild();
 }
